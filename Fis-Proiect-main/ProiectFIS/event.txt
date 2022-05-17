@@ -1,0 +1,1 @@
+Eveniment [titlu=3dhb, descriere=frefer, data_ora_incep=33, data_ora_sf=22, cod_culoare=Pink, alarma=true, recurenta_alarma=34, tip_recurenta=Saptamanal, interval=12]
