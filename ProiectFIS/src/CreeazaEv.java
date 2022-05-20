@@ -172,10 +172,17 @@ public class CreeazaEv extends JFrame {
 		lblMin.setBounds(364, 567, 70, 14);
 		contentPane.add(lblMin);
 		JButton btnSalveaza = new JButton("Salveaza");
-		List<Eveniment> evenimente= new ArrayList<Eveniment>();
+		List<Eveniment> evenimente;
+		
+		
+
+		
+	
 
 		btnSalveaza.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
+				
 				String titlu= textTitlu.getText();
 				//System.out.println(titlu);
 				String descriere= textDescriere.getText();
@@ -196,14 +203,34 @@ public class CreeazaEv extends JFrame {
 				//System.out.println(interval);
 				Eveniment ev= new Eveniment(titlu,descriere,data_ora_incep,data_ora_sf,cod_culoare,alarma,recurenta_alarma,tip_recurenta,interval);
 				/* System.out.println(ev); */
-				evenimente.add(ev);
+				try {
+				    // create Gson instance
+				    Gson gson = new Gson();
+
+				    // create a reader
+				    Reader reader = Files.newBufferedReader(Paths.get("evenimente.json"));
+
+				    // convert JSON array to list 
+				    List<Eveniment> eveniment = new ArrayList( Arrays.asList(gson.fromJson(reader, Eveniment[].class)));
+				    
+				    if(eveniment==null)
+				    	throw new Exception();
+
+				    // print 
+				    //eveniment.forEach(System.out::println);
+
+				    // close reader
+				    reader.close();
+				
+				eveniment.add(ev);
 
 
 				Writer writer;
 				try {
 					writer = Files.newBufferedWriter(Paths.get("evenimente.json"));
-					Gson gson=new Gson(); String json=gson.toJson(evenimente); 
-					gson.toJson(evenimente, writer);
+					//Gson gson=new Gson(); 
+					String json=gson.toJson(eveniment); 
+					gson.toJson(eveniment, writer);
 					writer.close();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -218,7 +245,11 @@ public class CreeazaEv extends JFrame {
 				 * e1.printStackTrace(); }
 				 */
 
+				} catch (Exception ex) {
+				    ex.printStackTrace();
+				}
 			}
+			
 		});
 
 		btnSalveaza.setBounds(392, 618, 120, 34);
@@ -247,11 +278,15 @@ public class CreeazaEv extends JFrame {
 		    // create a reader
 		    Reader reader = Files.newBufferedReader(Paths.get("evenimente.json"));
 
-		    // convert JSON array to list of books
+		    // convert JSON array to list 
 		    List<Eveniment> eveniment = Arrays.asList(gson.fromJson(reader, Eveniment[].class));
+		    
+		    for(Eveniment e:eveniment) {
+		    	System.out.println(e);
+		    }
 
-		    // print books
-		    eveniment.forEach(System.out::println);
+		    // print 
+		    //eveniment.forEach(System.out::println);
 
 		    // close reader
 		    reader.close();
@@ -259,6 +294,7 @@ public class CreeazaEv extends JFrame {
 		} catch (Exception ex) {
 		    ex.printStackTrace();
 		}
+		
 	}
 }
 

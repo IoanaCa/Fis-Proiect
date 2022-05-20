@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import javax.swing.JList;
 
 public class Proiect extends JFrame {
 
@@ -110,6 +111,10 @@ public class Proiect extends JFrame {
 		});
 		btnTabelan.setBounds(524, 11, 89, 35);
 		contentPane.add(btnTabelan);
+		
+		JList list = new JList();
+		list.setBounds(649, 159, 154, 188);
+		contentPane.add(list);
 		//JTable table = new JTable(data, columnNames);
 	}
 }
