@@ -76,5 +76,6 @@ public class Tabel_zi extends JFrame {
 		textField.setBounds(360, 59, 140, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
+		
 	}
 }

@@ -45,33 +45,33 @@ public class Tabel_sapt extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JList list = new JList();
-		list.setBounds(61, 101, 109, 263);
-		contentPane.add(list);
+		JList listLuni = new JList();
+		listLuni.setBounds(61, 101, 109, 263);
+		contentPane.add(listLuni);
 		
-		JList list_1 = new JList();
-		list_1.setBounds(180, 101, 109, 263);
-		contentPane.add(list_1);
+		JList listMarti = new JList();
+		listMarti.setBounds(180, 101, 109, 263);
+		contentPane.add(listMarti);
 		
-		JList list_2 = new JList();
-		list_2.setBounds(299, 101, 109, 263);
-		contentPane.add(list_2);
+		JList listMiercuri = new JList();
+		listMiercuri.setBounds(299, 101, 109, 263);
+		contentPane.add(listMiercuri);
 		
-		JList list_2_1 = new JList();
-		list_2_1.setBounds(418, 101, 109, 263);
-		contentPane.add(list_2_1);
+		JList listJoi = new JList();
+		listJoi.setBounds(418, 101, 109, 263);
+		contentPane.add(listJoi);
 		
-		JList list_2_2 = new JList();
-		list_2_2.setBounds(537, 101, 109, 263);
-		contentPane.add(list_2_2);
+		JList listVineri = new JList();
+		listVineri.setBounds(537, 101, 109, 263);
+		contentPane.add(listVineri);
 		
-		JList list_2_3 = new JList();
-		list_2_3.setBounds(654, 101, 109, 263);
-		contentPane.add(list_2_3);
+		JList listSambata = new JList();
+		listSambata.setBounds(654, 101, 109, 263);
+		contentPane.add(listSambata);
 		
-		JList list_2_4 = new JList();
-		list_2_4.setBounds(773, 101, 109, 263);
-		contentPane.add(list_2_4);
+		JList listDuminica = new JList();
+		listDuminica.setBounds(773, 101, 109, 263);
+		contentPane.add(listDuminica);
 		
 		JLabel lblNewLabel = new JLabel("Luni");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));

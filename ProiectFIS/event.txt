@@ -1,1 +1,1 @@
-Eveniment [titlu=3dhb, descriere=frefer, data_ora_incep=33, data_ora_sf=22, cod_culoare=Pink, alarma=true, recurenta_alarma=34, tip_recurenta=Saptamanal, interval=12]
+Eveniment [titlu=SALVEAZA, descriere=rgg, data_incep=12-12-2021, data_sf=13-02-2022, cod_culoare=Pink, tip_recurenta=-, alarma=true, ora_incep=12, ora_sf=13, recurenta_alarma=3]

@@ -17,6 +17,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,8 +26,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import com.google.gson.*;
 
-
-
 public class CreeazaEv extends JFrame {
 
 	private JPanel contentPane;
@@ -34,9 +33,9 @@ public class CreeazaEv extends JFrame {
 	private JTextField textDescriere;
 	private JTextField textDataInceput;
 	private JTextField textDataSfarsit;
-	private JTextField textInterval1;
+	private JTextField textOraInceput;
 	private JTextField textRecurenta;
-
+	private JTextField textOraSfarsit;
 
 	/**
 	 * Launch the application.
@@ -53,6 +52,9 @@ public class CreeazaEv extends JFrame {
 			}
 		});
 	}
+
+
+
 
 	/**
 	 * Create the frame.
@@ -116,7 +118,8 @@ public class CreeazaEv extends JFrame {
 		contentPane.add(lblRecurenta);
 
 		JComboBox comboBoxRecurenta = new JComboBox();
-		comboBoxRecurenta.setModel(new DefaultComboBoxModel(new String[] {"-", "Zilnic", "Saptamanal", "Lunar", "Anual"}));
+		comboBoxRecurenta
+		.setModel(new DefaultComboBoxModel(new String[] { "-", "Zilnic", "Saptamanal", "Lunar", "Anual" }));
 		comboBoxRecurenta.setBounds(248, 413, 145, 22);
 		contentPane.add(comboBoxRecurenta);
 
@@ -125,15 +128,16 @@ public class CreeazaEv extends JFrame {
 		lblAlarmaIntervalRecurenta.setBounds(121, 458, 69, 41);
 		contentPane.add(lblAlarmaIntervalRecurenta);
 
-		textInterval1 = new JTextField();
-		textInterval1.setBounds(248, 522, 96, 20);
-		contentPane.add(textInterval1);
-		textInterval1.setColumns(10);
+		textOraInceput = new JTextField();
+		textOraInceput.setEnabled(false);
+		textOraInceput.setBounds(234, 522, 46, 20);
+		contentPane.add(textOraInceput);
+		textOraInceput.setColumns(10);
 
-		JLabel lblInterval = new JLabel("Interval");
-		lblInterval.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblInterval.setBounds(131, 510, 69, 41);
-		contentPane.add(lblInterval);
+		JLabel lblOrainceput = new JLabel("Ora inceput");
+		lblOrainceput.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblOrainceput.setBounds(121, 510, 90, 41);
+		contentPane.add(lblOrainceput);
 
 		JLabel lblRecurenta_1 = new JLabel("Recurenta");
 		lblRecurenta_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -150,20 +154,38 @@ public class CreeazaEv extends JFrame {
 		btnInapoi.setBounds(75, 618, 120, 34);
 		contentPane.add(btnInapoi);
 
-
-
 		JComboBox comboBoxCuloare = new JComboBox();
-		comboBoxCuloare.setModel(new DefaultComboBoxModel(new String[] {"Pink", "Red", "Yellow"}));
+		comboBoxCuloare.setModel(new DefaultComboBoxModel(new String[] { "Pink", "Red", "Yellow" }));
 		comboBoxCuloare.setToolTipText("");
 		comboBoxCuloare.setBounds(248, 361, 145, 22);
 		contentPane.add(comboBoxCuloare);
 
 		textRecurenta = new JTextField();
+		textRecurenta.setEnabled(false);
 		textRecurenta.setColumns(10);
 		textRecurenta.setBounds(248, 561, 96, 20);
 		contentPane.add(textRecurenta);
 
 		JCheckBox chckbxAlarma = new JCheckBox("Seteaza");
+		
+		chckbxAlarma.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				Boolean alarma = (Boolean) chckbxAlarma.isSelected();
+				if(alarma==true) {
+					
+				
+				textOraInceput.setEnabled(true);
+				textOraSfarsit.setEnabled(true);
+				textRecurenta.setEnabled(true);
+				}
+				else {
+					textOraInceput.setEnabled(false);
+					textOraSfarsit.setEnabled(false);
+					textRecurenta.setEnabled(false);
+				}
+			}
+		});
 		chckbxAlarma.setBounds(245, 470, 99, 23);
 		contentPane.add(chckbxAlarma);
 
@@ -172,129 +194,138 @@ public class CreeazaEv extends JFrame {
 		lblMin.setBounds(364, 567, 70, 14);
 		contentPane.add(lblMin);
 		JButton btnSalveaza = new JButton("Salveaza");
-		List<Eveniment> evenimente;
+		List<Eveniment> evenimente=new ArrayList<Eveniment>();
 		
 		
-
-		
-	
-
 		btnSalveaza.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
+
+				String titlu = textTitlu.getText();
+				// System.out.println(titlu);
+				String descriere = textDescriere.getText();
+				// System.out.println(descriere);
+				String data_ora_incep = textDataInceput.getText();
+				// System.out.println(data_ora_incep);
+				String data_ora_sf = textDataSfarsit.getText();
+				// System.out.println(data_ora_sf);
+				String cod_culoare = (String) comboBoxCuloare.getSelectedItem();
+				// System.out.println(cod_culoare);
+				String tip_recurenta = (String) comboBoxRecurenta.getSelectedItem();
+				// System.out.println(tip_recurenta);
+				Boolean alarma = (Boolean) chckbxAlarma.isSelected();
 				
-				String titlu= textTitlu.getText();
-				//System.out.println(titlu);
-				String descriere= textDescriere.getText();
-				//System.out.println(descriere);
-				String data_ora_incep= textDataInceput.getText();
-				//System.out.println(data_ora_incep);
-				String data_ora_sf= textDataSfarsit.getText();
-				//System.out.println(data_ora_sf);
-				String cod_culoare= (String) comboBoxCuloare.getSelectedItem();
-				//System.out.println(cod_culoare);
-				String  tip_recurenta= (String) comboBoxRecurenta.getSelectedItem();
-				//System.out.println(tip_recurenta);
-				Boolean alarma= (Boolean)chckbxAlarma.isSelected();
-				//System.out.println(alarma);
-				int recurenta_alarma=Integer.valueOf(textRecurenta.getText()) ;
-				//System.out.println(recurenta_alarma);
-				int interval=Integer.valueOf(textInterval1.getText()) ;
-				//System.out.println(interval);
-				Eveniment ev= new Eveniment(titlu,descriere,data_ora_incep,data_ora_sf,cod_culoare,alarma,recurenta_alarma,tip_recurenta,interval);
-				/* System.out.println(ev); */
-				try {
-				    // create Gson instance
-				    Gson gson = new Gson();
+				// System.out.println(alarma);
+				int recurenta_alarma = Integer.valueOf(textRecurenta.getText());
+				// System.out.println(recurenta_alarma);
+				String ora_i = textOraInceput.getText();
 
-				    // create a reader
-				    Reader reader = Files.newBufferedReader(Paths.get("evenimente.json"));
+				String ora_s = textOraSfarsit.getText();
 
-				    // convert JSON array to list 
-				    List<Eveniment> eveniment = new ArrayList( Arrays.asList(gson.fromJson(reader, Eveniment[].class)));
-				    
-				    if(eveniment==null)
-				    	throw new Exception();
-
-				    // print 
-				    //eveniment.forEach(System.out::println);
-
-				    // close reader
-				    reader.close();
-				
-				eveniment.add(ev);
-
-
-				Writer writer;
-				try {
-					writer = Files.newBufferedWriter(Paths.get("evenimente.json"));
-					//Gson gson=new Gson(); 
-					String json=gson.toJson(eveniment); 
-					gson.toJson(eveniment, writer);
-					writer.close();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-
-
+				// System.out.println(interval);
+				Eveniment ev = new Eveniment(titlu, descriere, data_ora_incep, data_ora_sf, cod_culoare, tip_recurenta, alarma,
+						ora_i, ora_s, recurenta_alarma);
 				/*
-				 * try { PrintStream fis= new PrintStream("event.txt"); fis.println(ev); } catch
-				 * (FileNotFoundException e1) { // TODO Auto-generated catch block
-				 * e1.printStackTrace(); }
+				 * evenimente.add(ev); Writer writer;
 				 */
+				/*
+				 * try { writer = Files.newBufferedWriter(Paths.get("evenimente.json")); Gson
+				 * gson=new Gson(); String json=gson.toJson(evenimente); gson.toJson(evenimente,
+				 * writer); writer.close(); } catch (IOException e1) { // TODO Auto-generated
+				 * catch block e1.printStackTrace(); }
+				 */
+				try {
 
-				} catch (Exception ex) {
-				    ex.printStackTrace();
-				}
+					Gson gson = new Gson();
+
+
+					Reader reader = Files.newBufferedReader(Paths.get("evenimente.json"));
+
+
+
+					List<Eveniment> eveniment = new ArrayList(Arrays.asList(gson.fromJson(reader, Eveniment[].class)));
+
+
+					if (eveniment == null)
+
+					throw new Exception();
+
+
+					reader.close();
+
+					eveniment.add(ev);
+
+					Writer writer;
+					try {
+						writer = Files.newBufferedWriter(Paths.get("evenimente.json")); 
+						String json = gson.toJson(eveniment);
+						gson.toJson(eveniment, writer);
+						writer.close();
+					} catch (IOException e1) { 
+						e1.printStackTrace();
+					}
+				 
+				
+				  try { PrintStream fis= new PrintStream("event.txt"); fis.println(ev); } catch
+				  (FileNotFoundException e1) { // TODO Auto-generated catch block
+				  e1.printStackTrace(); }
+				  
+				  
+				  } catch (Exception ex) { ex.printStackTrace(); }
+				 
+
 			}
-			
+
 		});
 
 		btnSalveaza.setBounds(392, 618, 120, 34);
 		contentPane.add(btnSalveaza);
 
+		textOraSfarsit = new JTextField();
+		textOraSfarsit.setEnabled(false);
+		textOraSfarsit.setColumns(10);
+		textOraSfarsit.setBounds(392, 522, 46, 20);
+		contentPane.add(textOraSfarsit);
+
+		JLabel lblOraSfarsit = new JLabel("Ora sfarsit");
+		lblOraSfarsit.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblOraSfarsit.setBounds(304, 510, 90, 41);
+		contentPane.add(lblOraSfarsit);
+
 
 		/*
-		 * try { // create Gson instance Gson gson = new Gson();
+		 * try { Gson gson = new Gson();
 		 * 
-		 * // create a reader Reader reader =
-		 * Files.newBufferedReader(Paths.get("evenimente.json"));
 		 * 
-		 * // convert JSON string to Book object Eveniment even = gson.fromJson(reader,
-		 * Eveniment.class);
+		 * Reader reader = Files.newBufferedReader(Paths.get("evenimente.json"));
 		 * 
-		 * // print book System.out.println(even);
 		 * 
-		 * // close reader reader.close();
+		 * Eveniment even = gson.fromJson(reader, Eveniment.class);
+		 * 
+		 * 
+		 * reader.close();
 		 * 
 		 * } catch (Exception ex) { ex.printStackTrace(); }
 		 */
-		try {
-		    // create Gson instance
-		    Gson gson = new Gson();
 
-		    // create a reader
-		    Reader reader = Files.newBufferedReader(Paths.get("evenimente.json"));
+		/*
+		 * try { Gson gson = new Gson();
+		 * 
+		 * 
+		 * Reader reader = Files.newBufferedReader(Paths.get("evenimente.json"));
+		 * 
+		 * 
+		 * List<Eveniment> eveniment =Arrays.asList(gson.fromJson(reader,
+		 * Eveniment[].class));
+		 * 
+		 * for (Eveniment ex : eveniment) { System.out.println(ex); }
+		 * 
+		 * 
+		 * reader.close();
+		 * 
+		 * } catch (Exception ex) { ex.printStackTrace(); }
+		 */
 
-		    // convert JSON array to list 
-		    List<Eveniment> eveniment = Arrays.asList(gson.fromJson(reader, Eveniment[].class));
-		    
-		    for(Eveniment e:eveniment) {
-		    	System.out.println(e);
-		    }
 
-		    // print 
-		    //eveniment.forEach(System.out::println);
-
-		    // close reader
-		    reader.close();
-
-		} catch (Exception ex) {
-		    ex.printStackTrace();
-		}
-		
 	}
 }
-

@@ -8,13 +8,20 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JCalendar;
+import com.google.gson.Gson;
 import com.jgoodies.common.collect.LinkedListModel;
 
+import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
@@ -58,7 +65,11 @@ public class Proiect extends JFrame {
 		calendar.setDecorationBackgroundColor(Color.PINK);
 		calendar.setBounds(109, 55, 487, 292);
 		contentPane.add(calendar);
-		
+		String t= String.valueOf(calendar.getDate().getMonth());
+		String da= String.valueOf(calendar.getDate().getDay())+"-"+String.valueOf(calendar.getDate().getMonth())+"-"+String.valueOf(calendar.getDate().getYear());
+		System.out.println(da);
+		calendar.getDate();
+	    System.out.println(t);
 		JButton btnNewButton = new JButton("Creeaza eveniment");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -112,9 +123,33 @@ public class Proiect extends JFrame {
 		btnTabelan.setBounds(524, 11, 89, 35);
 		contentPane.add(btnTabelan);
 		
-		JList list = new JList();
+		DefaultListModel demoList = new DefaultListModel();
+		JList list = new JList(demoList);
 		list.setBounds(649, 159, 154, 188);
 		contentPane.add(list);
 		//JTable table = new JTable(data, columnNames);
+		
+		
+		try {
+			Gson gson = new Gson();
+
+			// create a reader
+			Reader reader = Files.newBufferedReader(Paths.get("evenimente.json"));
+
+			List<Eveniment> eveniment = Arrays.asList(gson.fromJson(reader, Eveniment[].class));
+			
+			
+			
+			for(Eveniment e: eveniment)
+			demoList.addElement(e.getTitlu());
+			
+			
+			//JList listd = new JList(demoList);
+			//listd.setBounds(124, 26, 582, 331);
+			contentPane.add(list);
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
 	}
 }
