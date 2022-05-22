@@ -4,11 +4,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.google.gson.Gson;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,16 +19,17 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JCheckBox;
-import com.google.gson.*;
 
-public class CreeazaEv extends JFrame {
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+
+public class ModificaEv extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textTitlu;
@@ -44,7 +47,8 @@ public class CreeazaEv extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreeazaEv frame = new CreeazaEv();
+					String sir=null;
+					ModificaEv frame = new ModificaEv(sir);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +60,7 @@ public class CreeazaEv extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CreeazaEv() {
+	public ModificaEv(String sir) {
 		setResizable(false);
 		setBounds(100, 100, 591, 736);
 		contentPane = new JPanel();
@@ -68,6 +72,7 @@ public class CreeazaEv extends JFrame {
 		textTitlu.setBounds(205, 24, 130, 20);
 		contentPane.add(textTitlu);
 		textTitlu.setColumns(10);
+		textTitlu.setText(sir);
 
 		JLabel lblTitlu = new JLabel("Titlu");
 		lblTitlu.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -115,8 +120,7 @@ public class CreeazaEv extends JFrame {
 		contentPane.add(lblRecurenta);
 
 		JComboBox comboBoxRecurenta = new JComboBox();
-		comboBoxRecurenta
-				.setModel(new DefaultComboBoxModel(new String[] { "-", "Zilnic", "Saptamanal", "Lunar", "Anual" }));
+		comboBoxRecurenta.setModel(new DefaultComboBoxModel(new String[] { "-", "Zilnic", "Saptamanal", "Lunar", "Anual" }));
 		comboBoxRecurenta.setBounds(248, 413, 145, 22);
 		contentPane.add(comboBoxRecurenta);
 
@@ -244,18 +248,29 @@ public class CreeazaEv extends JFrame {
 						throw new Exception();
 
 					reader.close();
-
+					
+					int nr=-1;
+					
+					for(Eveniment ee: eveniment) {
+						nr++;
+						if(ee.getTitlu().equals(sir))
+							break;
+					}
+					eveniment.remove(nr);
 					eveniment.add(ev);
+					//eveniment.remove()
 
 					Writer writer;
 					try {
 						writer = Files.newBufferedWriter(Paths.get("evenimente.json"));
-						String json = gson.toJson(eveniment);
+						//String json = gson.toJson(eveniment);
 						gson.toJson(eveniment, writer);
 						writer.close();
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
+
+					
 
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -280,38 +295,53 @@ public class CreeazaEv extends JFrame {
 		lblOraSfarsit.setBounds(304, 510, 90, 41);
 		contentPane.add(lblOraSfarsit);
 
-		/*
-		 * try { Gson gson = new Gson();
-		 * 
-		 * 
-		 * Reader reader = Files.newBufferedReader(Paths.get("evenimente.json"));
-		 * 
-		 * 
-		 * Eveniment even = gson.fromJson(reader, Eveniment.class);
-		 * 
-		 * 
-		 * reader.close();
-		 * 
-		 * } catch (Exception ex) { ex.printStackTrace(); }
-		 */
-
-		/*
-		 * try { Gson gson = new Gson();
-		 * 
-		 * 
-		 * Reader reader = Files.newBufferedReader(Paths.get("evenimente.json"));
-		 * 
-		 * 
-		 * List<Eveniment> eveniment =Arrays.asList(gson.fromJson(reader,
-		 * Eveniment[].class));
-		 * 
-		 * for (Eveniment ex : eveniment) { System.out.println(ex); }
-		 * 
-		 * 
-		 * reader.close();
-		 * 
-		 * } catch (Exception ex) { ex.printStackTrace(); }
-		 */
+		
+		try {
+			Gson gson = new Gson();
+			Reader reader = Files.newBufferedReader(Paths.get("evenimente.json"));
+			List<Eveniment> eveniment = Arrays.asList(gson.fromJson(reader, Eveniment[].class));
+			
+			for(Eveniment e: eveniment)
+				if(e.getTitlu().equals(sir)) {
+					textDescriere.setText(e.getDescriere());
+					textDataInceput.setText(e.getData_incep());
+					textDataSfarsit.setText(e.getData_sf());
+					int c;
+					if(e.getCod_culoare().equalsIgnoreCase("PINK"))
+						c=0;
+					else if(e.getCod_culoare().equalsIgnoreCase("RED"))
+						c=1;
+					else
+						c=2;
+					comboBoxCuloare.setSelectedIndex(c);
+					
+					if(e.getTip_recurenta().equals("-"))
+						c=0;
+					else if(e.getTip_recurenta().equals("Zilnic"))
+						c=1;
+					else if(e.getTip_recurenta().equals("Saptamanal"))
+						c=2;
+					else if(e.getTip_recurenta().equals("Lunar"))
+						c=3;
+					else 
+						c=4;
+					comboBoxRecurenta.setSelectedIndex(c);
+					
+					if(e.isAlarma()) {
+						chckbxAlarma.setSelected(true);
+						textOraInceput.setEnabled(true);
+						textOraSfarsit.setEnabled(true);
+						textRecurenta.setEnabled(true);
+						textOraInceput.setText(e.getOra_incep());
+						textOraSfarsit.setText(e.getOra_sf());
+						textRecurenta.setText(String.valueOf(e.getRecurenta_alarma()));
+					}
+				}
+			
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
 
 	}
 }

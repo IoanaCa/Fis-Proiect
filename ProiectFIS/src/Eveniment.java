@@ -2,8 +2,6 @@ import java.time.LocalDate;
 
 public class Eveniment {
 
-	
-		
 		String titlu;
 		String descriere;
 		String data_incep;

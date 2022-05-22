@@ -1,14 +1,17 @@
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.google.gson.Gson;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,16 +20,16 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JCheckBox;
-import com.google.gson.*;
 
-public class CreeazaEv extends JFrame {
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+
+public class NouEvSelectat extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textTitlu;
@@ -44,7 +47,8 @@ public class CreeazaEv extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreeazaEv frame = new CreeazaEv();
+					String dat = null;
+					NouEvSelectat frame = new NouEvSelectat(dat);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,8 +59,11 @@ public class CreeazaEv extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @param dat
 	 */
-	public CreeazaEv() {
+	public NouEvSelectat(String dat) {
+		System.out.println(dat);
 		setResizable(false);
 		setBounds(100, 100, 591, 736);
 		contentPane = new JPanel();
@@ -86,6 +93,7 @@ public class CreeazaEv extends JFrame {
 
 		textDataInceput = new JTextField();
 		textDataInceput.setBounds(248, 280, 145, 20);
+		textDataInceput.setText(dat);
 		contentPane.add(textDataInceput);
 		textDataInceput.setColumns(10);
 
@@ -254,6 +262,13 @@ public class CreeazaEv extends JFrame {
 						gson.toJson(eveniment, writer);
 						writer.close();
 					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+
+					try {
+						PrintStream fis = new PrintStream("event.txt");
+						fis.println(ev);
+					} catch (FileNotFoundException e1) { // TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 

@@ -1,1 +1,1 @@
-Eveniment [titlu=SALVEAZA, descriere=rgg, data_incep=12-12-2021, data_sf=13-02-2022, cod_culoare=Pink, tip_recurenta=-, alarma=true, ora_incep=12, ora_sf=13, recurenta_alarma=3]
+Eveniment [titlu=A saptea, descriere=nu sunt sigura, data_incep=22-5-2022, data_sf=22-5-2022, cod_culoare=Pink, tip_recurenta=-, alarma=false, ora_incep=, ora_sf=, recurenta_alarma=0]
