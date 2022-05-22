@@ -87,12 +87,12 @@ public class ev_ord_cron extends JFrame {
 
 		JButton btnModificaEveniment = new JButton("Modifica eveniment");
 
-		btnModificaEveniment.setBounds(234, 414, 132, 35);
+		btnModificaEveniment.setBounds(163, 414, 146, 35);
 		contentPane.add(btnModificaEveniment);
 
 		JButton btnStergeEveniment = new JButton("Sterge eveniment");
 
-		btnStergeEveniment.setBounds(462, 414, 123, 35);
+		btnStergeEveniment.setBounds(540, 414, 146, 35);
 		contentPane.add(btnStergeEveniment);
 
 		DefaultListModel demoList = new DefaultListModel();
@@ -100,6 +100,15 @@ public class ev_ord_cron extends JFrame {
 
 		listd.setBounds(124, 26, 582, 331);
 		contentPane.add(listd);
+		
+		JButton btnInapoi = new JButton("Inapoi");
+		btnInapoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnInapoi.setBounds(359, 414, 132, 35);
+		contentPane.add(btnInapoi);
 
 		btnStergeEveniment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -119,7 +128,7 @@ public class ev_ord_cron extends JFrame {
 						reader.close();
 
 						// eveniment.add(ev);
-						eveniment.remove(listd.getSelectedIndex());
+						eveniment.remove(listd.getSelectedIndex()+1);
 
 						Writer writer;
 						try {

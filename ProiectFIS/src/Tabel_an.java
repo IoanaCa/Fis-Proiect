@@ -10,6 +10,8 @@ import com.toedter.calendar.JDayChooser;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Tabel_an extends JFrame {
 
@@ -37,7 +39,7 @@ public class Tabel_an extends JFrame {
 	 */
 	public Tabel_an(String data) {
 		setResizable(false);
-		setBounds(100, 100, 933, 562);
+		setBounds(100, 100, 933, 579);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -165,11 +167,19 @@ public class Tabel_an extends JFrame {
 
 		textField = new JTextField();
 		textField.setEditable(false);
-		textField.setBounds(379, 465, 127, 26);
+		textField.setBounds(384, 448, 127, 26);
 		textField.setText(data);
 
 		contentPane.add(textField);
 		textField.setColumns(10);
+		
+		JButton btnInapoi = new JButton("Inapoi");
+		btnInapoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnInapoi.setBounds(384, 485, 127, 33);
+		contentPane.add(btnInapoi);
 	}
-
 }

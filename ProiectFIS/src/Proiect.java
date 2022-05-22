@@ -100,7 +100,7 @@ public class Proiect extends JFrame {
 		btnNewButton.setBounds(287, 408, 127, 35);
 		contentPane.add(btnNewButton);
 
-		JButton btnOrdCronologica = new JButton("Ev ordine \n cronologica");
+		JButton btnOrdCronologica = new JButton("Ev ordine cronologica");
 		btnOrdCronologica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ev_ord_cron ev_ord_cron = new ev_ord_cron();

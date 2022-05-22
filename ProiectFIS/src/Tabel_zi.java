@@ -148,7 +148,7 @@ public class Tabel_zi extends JFrame {
 							throw new Exception();
 
 						reader.close();
-						eveniment.remove(list.getSelectedIndex());
+						eveniment.remove(list.getSelectedIndex()+1);
 
 						Writer writer;
 						try {
